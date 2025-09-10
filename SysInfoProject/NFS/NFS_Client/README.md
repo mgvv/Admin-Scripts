@@ -3,7 +3,7 @@
 This script automates the process of mounting an NFS (Network File System) share from a remote server to a local directory on a Linux client.
 
 ## 📦 Features
-- Accepts server IP and mount directory as arguments
+- Accepts server IP, mount directory, and remote share path as arguments
 - Validates if the mount point exists and prompts the user
 - Mounts the NFS share from the server
 - Displays a summary of the mount
@@ -15,17 +15,17 @@ This script automates the process of mounting an NFS (Network File System) share
 
 ## 🚀 Usage
 ```bash
-sudo ./nfs_client_setup.sh <SERVER_IP> <MOUNT_DIR>
+sudo ./nfs_client_setup.sh <SERVER_IP> <MOUNT_DIR> <REMOTE_DIR>
 ```
 
 ### Example
 ```bash
-sudo ./nfs_client_setup.sh 192.168.1.10 /mnt/nfs/shared
+sudo ./nfs_client_setup.sh 192.168.1.10 /mnt/nfs/shared /srv/nfs/shared
 ```
 
 ## 📁 Output
 - Creates the mount point if it doesn't exist
-- Mounts the NFS share from `/srv/nfs/shared` on the server
+- Mounts the NFS share from the specified remote directory
 - Displays the current mount status
 
 ## 📌 fstab Option
