@@ -1,15 +1,15 @@
 #!/bin/bash
-# NFS Client Setup Script with Summary and fstab Option
+# NFS Client Setup Script with REMOTE_DIR Argument
 
 # Usage check
-if [ "$#" -ne 2 ]; then
-    echo "Usage: $0 <SERVER_IP> <MOUNT_DIR>"
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <SERVER_IP> <MOUNT_DIR> <REMOTE_DIR>"
     exit 1
 fi
 
 SERVER_IP="$1"
 MOUNT_DIR="$2"
-REMOTE_DIR="/srv/nfs/shared"
+REMOTE_DIR="$3"
 
 # Check if mount point exists
 if [ -d "$MOUNT_DIR" ]; then
@@ -20,7 +20,7 @@ if [ -d "$MOUNT_DIR" ]; then
         exit 1
     fi
 else
-    echo "📁 Creating mount point $MOUNT_DIR..."
+    echo " Creating mount point $MOUNT_DIR..."
     if ! mkdir -p "$MOUNT_DIR"; then
         echo "❌ Failed to create mount point."
         exit 1
@@ -28,7 +28,7 @@ else
 fi
 
 # Mount the NFS share
-echo "🔗 Mounting $SERVER_IP:$REMOTE_DIR to $MOUNT_DIR..."
+echo " Mounting $SERVER_IP:$REMOTE_DIR to $MOUNT_DIR..."
 if mount | grep -q "$MOUNT_DIR"; then
     echo "✅ Already mounted."
 else
