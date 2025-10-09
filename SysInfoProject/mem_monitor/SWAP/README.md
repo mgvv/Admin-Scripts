@@ -27,13 +27,13 @@ Check your Bash version:
 
 echo "$BASH_VERSION"
 
-##🧭 Usage
+## 🧭 Usage
 
 ./top-swap.sh
 ./top-swap.sh --show-user
 ./top-swap.sh --tsv | column -t -s $'\t'
 
-##🧪 Examples
+## 🧪 Examples
 
 ./top-swap.sh -n 20 --show-user
 ./top-swap.sh --mine
