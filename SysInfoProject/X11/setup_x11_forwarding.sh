@@ -8,8 +8,8 @@ if [ -z "$TARGET_USER" ]; then
     exit 1
 fi
 
-# Obtener el valor de DISPLAY, usar :0 como valor por defecto si no está definido
-DISPLAY_VAL="${DISPLAY:-:0}"
+# Usar :10 como valor por defecto si DISPLAY no está definido
+DISPLAY_VAL="${DISPLAY:-:10}"
 
 if [ -z "$DISPLAY_VAL" ]; then
     echo "❌ Error: DISPLAY environment variable is not set."
@@ -65,3 +65,4 @@ fi
 # Limpiar archivo temporal
 rm -f /tmp/z_xauth
 
+echo "✅ X11 forwarding setup complete for user '$TARGET_USER'."
