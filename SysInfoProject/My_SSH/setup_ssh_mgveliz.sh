@@ -2,6 +2,7 @@
 
 # 1. Define Variables
 TARGET_USER="mgveliz"
+TARGET_GROUP="users"
 HOME_DIR="/home/$TARGET_USER"
 SSH_DIR="$HOME_DIR/.ssh"
 AUTH_FILE="$SSH_DIR/authorized_keys"
@@ -44,7 +45,7 @@ chmod 600 "$AUTH_FILE"
 
 # 7. Fix Ownership
 # Because we run this with sudo, we must ensure mgveliz owns the files, not root.
-chown -R "$TARGET_USER:$TARGET_USER" "$SSH_DIR"
+chown -R "$TARGET_USER:$TARGET_GROUP" "$SSH_DIR"
 
 echo "---------------------------------------------------"
 echo "Setup complete. Permissions and ownership verified."
