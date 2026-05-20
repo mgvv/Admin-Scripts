@@ -32,3 +32,37 @@ cd YOUR_REPOSITORY
 
 # Make the script executable
 chmod +x change_uid.sh
+```
+
+## 💻 Usage
+The script can be run interactively. Simply execute it with sudo and follow the on-screen prompts to enter the username and the new UID.
+
+### Basic Execution
+```bash
+sudo ./change_uid.sh
+Dry-Run (Simulation)
+Highly recommended before making permanent changes on production servers.
+```
+
+```bash
+sudo ./change_uid.sh --dry-run
+Custom Log Directory
+Direct the output logs to a specific folder. If the directory does not exist, the script will attempt to create it.
+```
+
+```bash
+sudo ./change_uid.sh --log-dir /opt/admin/logs
+```
+
+### Help Menu
+
+```bash
+sudo ./change_uid.sh --help
+```
+
+## ⚠️ Important Safety Notes
+Time Consumption: The filesystem scan (find /) can take several minutes on systems with large hard drives or network-attached storage. Please be patient and do not interrupt the script while it is running.
+
+Symlinks: The script uses chown -h to change the ownership of symbolic links themselves, rather than following the link and accidentally changing the target file's owner.
+
+Backups: Always ensure you have a backup of critical system configurations before modifying user accounts.
