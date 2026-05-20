@@ -6,20 +6,21 @@ usage() {
   echo "Change a user's UID safely, updating file ownership across the system."
   echo ""
   echo "Options:"
-  echo "  -h, --help        Display this help message and exit."
-  echo "  --dry-run         Simulate the process without making actual changes."
-  echo "  --log-dir <path>  Specify a custom directory to save the log file."
+  echo "  -h, --help          Display this help message and exit."
+  echo "  --dry-run           Simulate the process without making actual changes."
+  echo "  --log-dir <path>    Specify a custom directory to save the log file."
+  echo "  --scan-path <path>  Specify which directory to scan for old files (Default: /)"
   echo ""
   echo "Examples:"
   echo "  sudo $0"
-  echo "  sudo $0 --dry-run"
-  echo "  sudo $0 --log-dir /opt/admin/logs"
-  echo "  sudo $0 --dry-run --log-dir /home/sysadmin/tests"
+  echo "  sudo $0 --dry-run --scan-path /home"
+  echo "  sudo $0 --scan-path /var/www --log-dir /opt/admin/logs"
 }
 
 # --- 2. Argument Parsing ---
 DRY_RUN=false
 LOG_DIR=""
+SCAN_PATH="/"
 
 while [[ "$#" -gt 0 ]]; do
   case $1 in
@@ -41,6 +42,16 @@ while [[ "$#" -gt 0 ]]; do
         exit 1
       fi
       ;;
+    --scan-path)
+      if [[ -n "$2" && "$2" != -* ]]; then
+        SCAN_PATH="$2"
+        shift 2
+      else
+        echo "Error: Argument for $1 is missing." >&2
+        usage
+        exit 1
+      fi
+      ;;
     *)
       echo "Error: Unknown parameter passed: $1" >&2
       usage
@@ -53,6 +64,12 @@ if [ "$DRY_RUN" = true ]; then
   echo "========================================="
   echo "  RUNNING IN DRY-RUN MODE (SIMULATION)   "
   echo "========================================="
+fi
+
+# Validate scan path
+if [[ ! -d "$SCAN_PATH" ]]; then
+  echo "Error: The scan path '$SCAN_PATH' does not exist or is not a directory." >&2
+  exit 1
 fi
 
 # --- 3. Root Check ---
@@ -119,7 +136,6 @@ fi
 # --- 7. Setup Logging Directory ---
 timestamp=$(date +"%Y%m%d_%H%M%S")
 
-# If user didn't specify a log directory, set the defaults
 if [[ -z "$LOG_DIR" ]]; then
   if [ "$DRY_RUN" = true ]; then
     LOG_DIR="/tmp"
@@ -128,36 +144,35 @@ if [[ -z "$LOG_DIR" ]]; then
   fi
 fi
 
-# Ensure the log directory exists, create it if it doesn't
 if [[ ! -d "$LOG_DIR" ]]; then
   echo "Log directory '$LOG_DIR' does not exist. Attempting to create it..."
   mkdir -p "$LOG_DIR" 2>/dev/null || { echo "Error: Failed to create log directory '$LOG_DIR'. Check permissions." >&2; exit 1; }
 fi
 
-# Set the final log file path
 if [ "$DRY_RUN" = true ]; then
   log_file="${LOG_DIR}/uid_change_${username}_${timestamp}_DRYRUN.log"
 else
   log_file="${LOG_DIR}/uid_change_${username}_${timestamp}.log"
 fi
 
-# --- 8. Filesystem-wide Update & Logging ---
+# --- 8. Filesystem Update & Logging ---
 if [ "$DRY_RUN" = true ]; then
   echo "--------------------------------------------------------"
-  echo "Scanning filesystem to find files owned by UID $current_uid..."
+  echo "Scanning '$SCAN_PATH' to find files owned by UID $current_uid..."
   echo "Simulated log will be written to: $log_file"
 else
   echo "--------------------------------------------------------"
-  echo "Scanning filesystem for leftover files owned by UID $current_uid..."
+  echo "Scanning '$SCAN_PATH' for leftover files owned by UID $current_uid..."
   echo "Logging changes to: $log_file"
 fi
 
 echo "=== UID Change Log for $username (Dry-Run: $DRY_RUN) ===" > "$log_file"
 echo "Old UID: $current_uid -> New UID: $new_uid" >> "$log_file"
+echo "Target Scan Path: $SCAN_PATH" >> "$log_file"
 echo "Date: $(date)" >> "$log_file"
 echo "-----------------------------------" >> "$log_file"
 
-find / \( -path /proc -o -path /sys -o -path /dev \) -prune -o -user "$current_uid" -print0 2>/dev/null | while IFS= read -r -d $'\0' file; do
+find "$SCAN_PATH" \( -path /proc -o -path /sys -o -path /dev \) -prune -o -user "$current_uid" -print0 2>/dev/null | while IFS= read -r -d $'\0' file; do
   if [ "$DRY_RUN" = true ]; then
     echo "[DRY-RUN] Would change ownership: $file" >> "$log_file"
   else
@@ -167,13 +182,13 @@ find / \( -path /proc -o -path /sys -o -path /dev \) -prune -o -user "$current_u
 done
 
 lines=$(wc -l < "$log_file")
-files_found=$((lines - 4))
+files_found=$((lines - 5)) # Adjusted for the new header line
 
 echo "--------------------------------------------------------"
 if [ "$DRY_RUN" = true ]; then
-  echo "Done Simulation! Found $files_found files that would need ownership updates."
+  echo "Done Simulation! Found $files_found files that would need ownership updates in '$SCAN_PATH'."
   echo "Review the simulated target list at: $log_file"
 else
-  echo "Done! Updated ownership on $files_found files outside the home directory."
+  echo "Done! Updated ownership on $files_found files inside '$SCAN_PATH'."
   echo "You can review the full list of changed files at: $log_file"
 fi
