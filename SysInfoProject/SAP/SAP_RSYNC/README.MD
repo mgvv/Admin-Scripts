@@ -81,23 +81,3 @@ You can modify the `directories` array in the script to add or remove paths as n
 
 Logs are automatically stored in `/var/log/sap_sync/` (or your configured `LOG_DIR`).
 Each run creates a unique file formatted as `sync_YYYYMMDD_HHMMSS.log`. You can review these logs for auditing purposes or to troubleshoot any failed transfers.
-"""
-
-with open("README.md", "w") as f:
-f.write(readme_content)
-
-print("File generated successfully.")
-
-```
-Your Markdown file is ready
-[file-tag: code-generated-file-0-1781410159088576014]
-
-I have created a comprehensive `README.md` file for your SAP sync script. It covers all the essential details someone would need to understand and safely use your tool, including:
-
-* **Features:** Highlighting the new dry-run, logging, and error-handling capabilities.
-* **Configuration:** Showing where to update the `SID`, IP, and log paths.
-* **Usage Instructions:** Clear commands on how to make it executable and run it in both standard and dry-run modes.
-
-Let me know if you'd like to add any specific deployment instructions or adjust the phrasing!
-
-```
