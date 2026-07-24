@@ -2,7 +2,7 @@
 
 Este script de **PowerShell** automatiza la creación de una estructura estandarizada de carpetas, documentación inicial y plantillas operativas de IT Service Management (ITSM) para múltiples clientes (`CUST_1`, `CUST_2`, etc.).
 
-Está optimizado para entornos de soporte informático, infraestructura multi-cliente y administración de paisajes **SAP / NTT / RISE**.
+Está optimizado para entornos de soporte informático, infraestructura multi-cliente y administración de paisajes **SAP / MGW / RISE**.
 
 ---
 
@@ -34,7 +34,7 @@ The DIR/
     ├── 04_Incidents_Problems/      # Registro de Incidentes (INC) y Problemas (PRB)
     ├── 05_Changes_Releases/        # CAB, Órdenes de Transporte y Entregas
     ├── 06_Projects/                # Proyectos Activos y Completados
-    ├── 07_Vendors_NTT_RISE/        # Tickets de proveedores (NTT / SAP RISE)
+    ├── 07_Vendors_MGW_RISE/        # Tickets de proveedores (MGW / SAP RISE)
     ├── 08_Backups_Dumps/           # Respaldos de SAP, Base de Datos y SO
     └── 09_Templates/               # Plantillas Markdown (.md) predefinidas
 ```
