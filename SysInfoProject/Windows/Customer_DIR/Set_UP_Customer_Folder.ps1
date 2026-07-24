@@ -125,7 +125,7 @@ $folders = @(
     "01_Architecture\SAP\Landscape_Diagrams",
     "01_Architecture\SAP\SID_Overview",
     "01_Architecture\Infrastructure\Network",
-    "01_Architecture\Infrastructure\NTT_DC",
+    "01_Architecture\Infrastructure\MGW_DC",
     "01_Architecture\Infrastructure\Cloud_RISE",
     "01_Architecture\OS\Linux",
     "01_Architecture\OS\Windows",
@@ -158,8 +158,8 @@ $folders = @(
     "06_Projects\Active",
     "06_Projects\Completed",
 
-    "07_Vendors_NTT_RISE\NTT\Tickets",
-    "07_Vendors_NTT_RISE\SAP_RISE\Tickets",
+    "07_Vendors_MGW_RISE\MGW\Tickets",
+    "07_Vendors_MGW_RISE\SAP_RISE\Tickets",
 
     "08_Backups_Dumps\SAP",
     "08_Backups_Dumps\DB",
