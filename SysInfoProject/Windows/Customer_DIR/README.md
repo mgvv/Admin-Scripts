@@ -65,7 +65,7 @@ $clients = @("CLIENTE_A", "CLIENTE_B", "CLIENTE_C")
 Para ejecutar el script utilizando los valores predeterminados dentro de la sección `# CONFIGURATION`:
 
 ```powershell
-.\build_client_structure.ps1
+.\Set_UP_Customer_Folder.ps1
 ```
 
 ### Ejecución por Parámetros CLI (Avanzado)
@@ -73,10 +73,10 @@ Si adaptas el script para recibir parámetros de línea de comandos mediante el 
 
 ```powershell
 # Ejecución pasando ruta y un único cliente
-.\build_client_structure.ps1 -BasePath "D:\ClientsData" -Clients "CUST_99"
+.\Set_UP_Customer_Folder.ps1 -BasePath "D:\ClientsData" -Clients "CUST_99"
 
 # Ejecución pasando múltiples clientes
-.\build_client_structure.ps1 -BasePath "D:\ClientsData" -Clients "CUST_01", "CUST_02", "CUST_03"
+.\Set_UP_Customer_Folder.ps1 -BasePath "D:\ClientsData" -Clients "CUST_01", "CUST_02", "CUST_03"
 ```
 
 ---
@@ -99,7 +99,7 @@ En la carpeta `09_Templates` de cada cliente se incluirán los siguientes archiv
 ### 1. Error de Política de Ejecución (`ExecutionPolicy`)
 **Síntoma:**
 ```text
-File build_client_structure.ps1 cannot be loaded because running scripts is disabled on this system.
+File Set_UP_Customer_Folder.ps1 cannot be loaded because running scripts is disabled on this system.
 ```
 **Solución:**
 Permite la ejecución de scripts en tu sesión actual de PowerShell corriendo:
