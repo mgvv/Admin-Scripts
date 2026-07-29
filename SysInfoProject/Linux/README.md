@@ -1,4 +1,4 @@
-# SAP Ariba File Archival Utility
+# SAP File Archival Utility
 
 A reliable Bash script designed to identify, compress into ZIP format, and purge log/archive files modified prior to **January 1, 2026**.
 
